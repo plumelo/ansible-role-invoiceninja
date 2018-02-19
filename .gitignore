@@ -1,0 +1,6 @@
+*.retry
+.DS_Store
+.vagrant
+tests/roles/*
+.config.vim
+

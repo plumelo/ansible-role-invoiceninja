@@ -1,0 +1,4 @@
+---
+
+include: fpm.yml
+# tasks file for ansible-role-invoiceninja
