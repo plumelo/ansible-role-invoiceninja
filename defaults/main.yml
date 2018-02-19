@@ -1,2 +1,41 @@
 ---
-# defaults file for ansible-role-invoiceninja
+
+invoiceninja_fpm_php_version: 7.1
+invoiceninja_fpm_install: true
+invoiceninja_php_packages:
+  - 'php{{ invoiceninja_fpm_php_version }}-fpm'
+  - 'php{{ invoiceninja_fpm_php_version }}-common'
+  - 'php{{ invoiceninja_fpm_php_version }}-mbstring'
+  - 'php{{ invoiceninja_fpm_php_version }}-xmlrpc'
+  - 'php{{ invoiceninja_fpm_php_version }}-soap'
+  - 'php{{ invoiceninja_fpm_php_version }}-gd'
+  - 'php{{ invoiceninja_fpm_php_version }}-xml'
+  - 'php{{ invoiceninja_fpm_php_version }}-intl'
+  - 'php{{ invoiceninja_fpm_php_version }}-tidy'
+  - 'php{{ invoiceninja_fpm_php_version }}-mysql'
+  - 'php{{ invoiceninja_fpm_php_version }}-cli'
+  - 'php{{ invoiceninja_fpm_php_version }}-mcrypt'
+  - 'php{{ invoiceninja_fpm_php_version }}-ldap'
+  - 'php{{ invoiceninja_fpm_php_version }}-zip'
+  - 'php{{ invoiceninja_fpm_php_version }}-curl'
+  - 'php{{ invoiceninja_fpm_php_version }}-php-sqlite3'
+
+invoiceninja_fpm_ini:
+  - option: 'file_uploads'
+    section: 'PHP'
+    value: 'On'
+  - option: 'allow_url_fopen'
+    section: 'PHP'
+    value: 'ON'
+  - option: 'memory_limit'
+    section: 'PHP'
+    value: '256M'
+  - option: 'upload_max_file_size'
+    section: 'PHP'
+    value: '64M'
+  - option: 'max_execution_time'
+    section: 'PHP'
+    value: '360'
+  - option: 'date.timezone'
+    section: 'PHP'
+    value: 'Europe/Bucharest'
