@@ -1,5 +1,16 @@
 ---
 
+invoiceninja_name: invoiceninja
+invoiceninja_user: '{{ invoiceninja_name }}'
+invoiceninja_path: '/var/www/html/invoiceninja/'
+invoiceninja_repo: 'https://github.com/invoiceninja/invoiceninja.git'
+invoiceninja_server_name: invoiceninja
+invoiceninja_hosts:
+  - ninja.local
+
+invoiceninja_mysql_install: true
+invoiceninja_nginx_install: true
+
 invoiceninja_fpm_php_version: 7.1
 invoiceninja_fpm_install: true
 invoiceninja_php_packages:
@@ -18,7 +29,8 @@ invoiceninja_php_packages:
   - 'php{{ invoiceninja_fpm_php_version }}-ldap'
   - 'php{{ invoiceninja_fpm_php_version }}-zip'
   - 'php{{ invoiceninja_fpm_php_version }}-curl'
-  - 'php{{ invoiceninja_fpm_php_version }}-php-sqlite3'
+  - 'php{{ invoiceninja_fpm_php_version }}-sqlite3'
+  - 'php{{ invoiceninja_fpm_php_version }}-gmp'
 
 invoiceninja_fpm_ini:
   - option: 'file_uploads'
@@ -39,3 +51,24 @@ invoiceninja_fpm_ini:
   - option: 'date.timezone'
     section: 'PHP'
     value: 'Europe/Bucharest'
+invoiceninja_php_fpm_pools:
+  - name: www-data
+    user: www-data
+    group: www-data
+    listen: /var/run/php-fpm-www-data.sock
+    listen.owner: www-data
+    listen.group: www-data
+    listen.mode: 0666
+    pm: ondemand
+    pm.max_children: 5
+    pm.process_idle_timeout: 10s
+    pm.max_requests: 200
+    chdir: /
+
+invoiceninja_db_name: '{{ invoiceninja_name }}'
+invoiceninja_db_user: '{{ invoiceninja_name }}'
+invoiceninja_db_password: '{{ invoiceninja_name }}'
+
+invoiceninja_composer_install:
+  - url: https://getcomposer.org/composer.phar
+    dest: /usr/local/bin/composer
