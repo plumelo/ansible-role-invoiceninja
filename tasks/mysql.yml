@@ -1,0 +1,14 @@
+---
+
+- include_role: name=plumelo.mysql private=true
+  vars:
+    mysql_package: mysql
+    mysql_databases:
+      - name: '{{ invoiceninja_db_name }}'
+    mysql_users:
+      - name: '{{ invoiceninja_db_user }}'
+        pass: '{{ invoiceninja_db_password }}'
+        privs:
+          - '{{ invoiceninja_db_name }}.*:ALL'
+        hosts:
+          - localhost
