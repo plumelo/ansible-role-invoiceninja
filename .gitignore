@@ -3,4 +3,3 @@
 .vagrant
 tests/roles/*
 .config.vim
-
