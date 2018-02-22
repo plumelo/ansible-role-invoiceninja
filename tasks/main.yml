@@ -1,11 +1,14 @@
 ---
 
+- include: dependencies.yml
+
+- include: fpm.yml
+  when: invoiceninja_fpm_install
+
+- include: install.yml
+
 - include: mysql.yml
   when: invoiceninja_mysql_install
 
-- include: fpm.yml
-
 - include: nginx.yml
   when: invoiceninja_nginx_install
-
-- include: install.yml
