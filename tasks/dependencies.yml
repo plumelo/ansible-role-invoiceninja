@@ -1,0 +1,25 @@
+---
+
+- name: Install prerequisites
+  apt: name='{{ item }}' state=present update_cache=yes
+  with_items:
+    - git
+    - acl
+
+- name: Install composer
+  get_url:
+    url: '{{ item.url }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode|default("a+x") }}'
+  with_items: '{{ invoiceninja_composer_install }}'
+
+- name: Ensure Invoice Ninja user exists
+  user: name='{{ invoiceninja_user }}'
+
+- name: Ensure Invoice Ninja directory exists
+  file:
+    path: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
+    state: directory
+    owner: '{{ invoiceninja_user }}'
+    group: '{{ invoiceninja_user }}'
+    mode: 0755
