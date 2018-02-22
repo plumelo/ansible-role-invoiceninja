@@ -1,33 +1,21 @@
 ---
 
-- name: Install prerequisites
-  apt: name='{{ item }}' state=present update_cache=yes
-  with_items:
-    - git
-    - acl
-
-- name: Install composer
-  get_url:
-    url: '{{ item.url }}'
-    dest: '{{ item.dest }}'
-    mode: '{{ item.mode|default("a+x") }}'
-  with_items: '{{ invoiceninja_composer_install }}'
-
-- name: Ensure Invoice Ninja directory exists
-  file:
-    path: '{{ invoiceninja_path }}'
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: 0755
-
 - name: Clone the git repo for Invoice Ninja
   git:
     accept_hostkey: 'yes'
     repo: '{{ invoiceninja_repo }}'
-    dest: '{{ invoiceninja_path }}'
+    dest: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
   become: 'yes'
-  become_user: www-data
+  become_user: '{{ invoiceninja_user }}'
 
 - name: Composer install Invoice Ninja dependencies
-  composer: command=install working_dir='{{ invoiceninja_path }}'
+  composer:
+    command: install
+    working_dir: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
+
+- name: Configure env
+  template:
+    src: env.j2
+    dest: '{{ invoiceninja_path }}/{{ invoiceninja_user }}/.env'
+  become: 'yes'
+  become_user: '{{ invoiceninja_user }}'
