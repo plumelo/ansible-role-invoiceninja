@@ -2,14 +2,14 @@
 
 invoiceninja_name: invoiceninja
 invoiceninja_user: '{{ invoiceninja_name }}'
-invoiceninja_path: '/var/www/html/invoiceninja/'
+invoiceninja_path: '/srv'
 invoiceninja_repo: 'https://github.com/invoiceninja/invoiceninja.git'
-invoiceninja_server_name: invoiceninja
-invoiceninja_hosts:
-  - ninja.local
+invoiceninja_server_name: _
 
 invoiceninja_mysql_install: true
-invoiceninja_nginx_install: true
+invoiceninja_db_name: '{{ invoiceninja_name }}'
+invoiceninja_db_user: '{{ invoiceninja_name }}'
+invoiceninja_db_password: '{{ invoiceninja_name }}'
 
 invoiceninja_fpm_php_version: 7.1
 invoiceninja_fpm_install: true
@@ -32,43 +32,36 @@ invoiceninja_php_packages:
   - 'php{{ invoiceninja_fpm_php_version }}-sqlite3'
   - 'php{{ invoiceninja_fpm_php_version }}-gmp'
 
-invoiceninja_fpm_ini:
-  - option: 'file_uploads'
-    section: 'PHP'
-    value: 'On'
-  - option: 'allow_url_fopen'
-    section: 'PHP'
-    value: 'ON'
-  - option: 'memory_limit'
-    section: 'PHP'
-    value: '256M'
-  - option: 'upload_max_file_size'
-    section: 'PHP'
-    value: '64M'
-  - option: 'max_execution_time'
-    section: 'PHP'
-    value: '360'
-  - option: 'date.timezone'
-    section: 'PHP'
-    value: 'Europe/Bucharest'
-invoiceninja_php_fpm_pools:
-  - name: www-data
-    user: www-data
-    group: www-data
-    listen: /var/run/php-fpm-www-data.sock
-    listen.owner: www-data
-    listen.group: www-data
-    listen.mode: 0666
-    pm: ondemand
-    pm.max_children: 5
-    pm.process_idle_timeout: 10s
-    pm.max_requests: 200
-    chdir: /
+_invoiceninja_fpm_settings:
+  name: '{{ invoiceninja_user }}'
+  listen: '/var/run/fpm.{{ invoiceninja_user }}.socket'
+  user: '{{ invoiceninja_user }}'
+  group: '{{ invoiceninja_user }}'
+  listen.owner: www-data
+  listen.group: www-data
+  chdir: /
+invoiceninja_fpm_settings: {}
 
-invoiceninja_db_name: '{{ invoiceninja_name }}'
-invoiceninja_db_user: '{{ invoiceninja_name }}'
-invoiceninja_db_password: '{{ invoiceninja_name }}'
+invoiceninja_nginx_install: true
+_invoiceninja_nginx_site:
+  template: 'invoiceninja.conf.j2'
+  server_name: '{{ invoiceninja_server_name }}'
+
+invoiceninja_nginx_site: {}
+invoiceninja_nginx_sites:
+  '{{ invoiceninja_user }}': '{{ _invoiceninja_nginx_site| combine(invoiceninja_nginx_site) }}'
 
 invoiceninja_composer_install:
-  - url: https://getcomposer.org/composer.phar
-    dest: /usr/local/bin/composer
+  - url: 'https://getcomposer.org/composer.phar'
+    dest: '/usr/local/bin/composer'
+
+invoiceninja_default_env:
+  template: 'env.j2'
+
+_invoiceninja_env:
+  DB_DATABASE='{{ invoiceninja_db_name }}'
+  DB_USERNAME='{{ invoiceninja_db_user }}'
+  DB_PASSWORD='{{ invoiceninja_db_password }}'
+
+invoiceninja_env:
+  '{{ {invoiceninja_default_env}|combine}'
