@@ -3,3 +3,4 @@
 .vagrant
 tests/roles/*
 .config.vim
+credentials
