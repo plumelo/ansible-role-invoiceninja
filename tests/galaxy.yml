@@ -1,5 +1,5 @@
 ---
 
-- role: nbz4live.php-fpm
-- role: plumelo.mysql
-- role: jdauphant.nginx
+- src: plumelo.mysql
+- src: nbz4live.php-fpm
+- src: jdauphant.nginx
