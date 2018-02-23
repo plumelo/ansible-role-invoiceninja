@@ -49,19 +49,17 @@ _invoiceninja_nginx_site:
 
 invoiceninja_nginx_site: {}
 invoiceninja_nginx_sites:
+  # yamllint disable-line rule:line-length
   '{{ invoiceninja_user }}': '{{ _invoiceninja_nginx_site| combine(invoiceninja_nginx_site) }}'
 
 invoiceninja_composer_install:
   - url: 'https://getcomposer.org/composer.phar'
     dest: '/usr/local/bin/composer'
 
-invoiceninja_default_env:
-  template: 'env.j2'
+_invoiceninja_env_defaults:
+  DB_DATABASE: '{{ invoiceninja_db_name }}'
+  DB_USERNAME: '{{ invoiceninja_db_user }}'
+  DB_PASSWORD: '{{ invoiceninja_db_password }}'
 
-_invoiceninja_env:
-  DB_DATABASE='{{ invoiceninja_db_name }}'
-  DB_USERNAME='{{ invoiceninja_db_user }}'
-  DB_PASSWORD='{{ invoiceninja_db_password }}'
-
-invoiceninja_env:
-  '{{ {invoiceninja_default_env}|combine}'
+invoiceninja_env: {}
+_invoiceninja_env: '{{ _invoiceninja_env_defaults|combine(invoiceninja_env) }}'
