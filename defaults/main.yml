@@ -2,8 +2,10 @@
 
 invoiceninja_name: invoiceninja
 invoiceninja_user: '{{ invoiceninja_name }}'
-invoiceninja_path: '/srv'
+invoiceninja_path: '/srv/{{ invoiceninja_user }}'
 invoiceninja_repo: 'https://github.com/invoiceninja/invoiceninja.git'
+invoiceninja_repo_update: true
+invoiceninja_version: master
 invoiceninja_server_name: _
 
 invoiceninja_mysql_install: true
