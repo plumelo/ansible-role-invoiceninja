@@ -8,8 +8,6 @@ invoiceninja_repo_update: true
 invoiceninja_version: master
 invoiceninja_server_name: _
 
-
-mysql_installation_type: "configuration_only"
 invoiceninja_mysql_install: true
 invoiceninja_db_name: '{{ invoiceninja_name }}'
 invoiceninja_db_user: '{{ invoiceninja_name }}'
