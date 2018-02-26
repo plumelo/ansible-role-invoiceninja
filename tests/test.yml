@@ -2,5 +2,8 @@
 
 - hosts: all
   become: true
+  vars:
+    invoiceninja_name: ninja
+    invoiceninja_path: /opt/ninja
   roles:
     - role: plumelo.invoiceninja
