@@ -1,5 +1,5 @@
 ---
 
-- include_role: name=jdauphant.nginx private=true
+- import_role: name=jdauphant.nginx private=true
   vars:
     nginx_sites: '{{ invoiceninja_nginx_sites }}'
