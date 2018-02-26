@@ -18,7 +18,7 @@
 
 - name: Ensure Invoice Ninja directory exists
   file:
-    path: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
+    path: '{{ invoiceninja_path }}'
     state: directory
     owner: '{{ invoiceninja_user }}'
     group: '{{ invoiceninja_user }}'
