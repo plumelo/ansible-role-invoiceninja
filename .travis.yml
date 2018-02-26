@@ -12,6 +12,7 @@ install:
   - ansible --version
 
 script:
+  - ansible-galaxy install -r tests/galaxy.yml --roles-path roles
   - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
   - >
