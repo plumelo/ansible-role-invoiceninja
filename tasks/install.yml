@@ -2,20 +2,24 @@
 
 - name: Clone the git repo for Invoice Ninja
   git:
-    accept_hostkey: 'yes'
+    accept_hostkey: true
     repo: '{{ invoiceninja_repo }}'
-    dest: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
-  become: 'yes'
+    dest: '{{ invoiceninja_path }}'
+    version: '{{ invoiceninja_version | default(omit) }}'
+    update: '{{ invoiceninja_repo_update | default(False) }}'
+  become: true
   become_user: '{{ invoiceninja_user }}'
 
 - name: Composer install Invoice Ninja dependencies
   composer:
     command: install
-    working_dir: '{{ invoiceninja_path }}/{{ invoiceninja_user }}'
+    working_dir: '{{ invoiceninja_path }}'
+  become: true
+  become_user: '{{ invoiceninja_user }}'
 
 - name: Configure env
   template:
     src: env.j2
-    dest: '{{ invoiceninja_path }}/{{ invoiceninja_user }}/.env'
-  become: 'yes'
+    dest: '{{ invoiceninja_path }}/.env'
+  become: true
   become_user: '{{ invoiceninja_user }}'
