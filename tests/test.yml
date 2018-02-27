@@ -3,9 +3,8 @@
 - hosts: all
   become: true
   vars:
+    mysql_installation_type: "configuration_only"
     invoiceninja_name: ninja
     invoiceninja_path: /opt/ninja
   roles:
     - role: plumelo.invoiceninja
-    - role: plumelo.mysql
-      mysql_installation_type: "configuration_only"
