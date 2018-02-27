@@ -2,7 +2,7 @@
 
 - import_role: name=plumelo.mysql private=true
   vars:
-    mysql_installation_type: "configuration_only"
+    mysql_installation_type: ""
     mysql_databases:
       - name: '{{ invoiceninja_db_name }}'
     mysql_users:
