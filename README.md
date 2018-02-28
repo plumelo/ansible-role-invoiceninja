@@ -1,7 +1,9 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Simple role to install Invoice Ninja
+
+[![Build Status](https://travis-ci.org/plumelo/ansible-role-invoiceninja.svg?branch=master)](https://travis-ci.org/plumelo/ansible-role-invoiceninja)
 
 Requirements
 ------------
