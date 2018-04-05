@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  vars:
+    nginx_official_repo: true
+    nginx_official_repo_mainline: true
+
+  roles:
+    - role: jdauphant.ssl-certs
+    - role: jdauphant.nginx
+      nginx_configs:
+        ssl:
+          - ssl_certificate_key {{ssl_certs_privkey_path}}
+          - ssl_certificate     {{ssl_certs_cert_path}}
+      nginx_sites:
+        custom_bar:
+          template: invoiceninjaproxy.conf.j2
+          server_name: invoiceninjaproxy.local
