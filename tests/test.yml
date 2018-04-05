@@ -3,8 +3,13 @@
 - hosts: all
   become: true
   vars:
+    nginx_official_repo: true
+    nginx_official_repo_mainline: true
     invoiceninja_name: ninja
-    invoiceninja_path: /opt/ninja
+    invoiceninja_path: /opt/{{ invoiceninja_name }}
+    invoiceninja_env:
+      TRUSTED_PROXIES: "10.0.3.1/16"
+
     invoiceninja_mysql_install: false
     invoiceninja_nginx_install: false
   roles:
