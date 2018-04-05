@@ -2,18 +2,33 @@
 # vi: set ft=ruby :
 
 Vagrant.configure('2') do |config|
-  config.vm.hostname = 'invoiceninja'
-  config.vm.box = 'plumelo/xenial64'
-
   config.ssh.forward_agent = true
 
-  config.vm.provider :lxc do |lxc|
-    lxc.container_name = 'invoiceninja'
+  config.vm.define :invoiceninja, primary: true do |dev|
+    dev.vm.hostname = 'invoiceninja'
+    dev.vm.box = 'plumelo/xenial64'
+    dev.vm.provider :lxc do |lxc|
+      lxc.container_name = 'invoiceninja'
+    end
+
+    dev.vm.provision 'ansible' do |ansible|
+      ansible.playbook = 'test.yml'
+      ansible.galaxy_role_file = 'galaxy.yml'
+    end
   end
 
-  config.vm.provision 'ansible' do |ansible|
-    ansible.playbook = 'test.yml'
-    ansible.galaxy_role_file = 'galaxy.yml'
-    # ansible.verbose = "vvv"
+  config.vm.define :invoiceninjaproxy do |dev|
+    dev.vm.hostname = 'invoiceninjaproxy'
+    dev.vm.box = 'plumelo/xenial64'
+
+    dev.vm.provider :lxc do |lxc|
+      lxc.container_name = 'invoiceninjaproxy'
+    end
+
+    dev.vm.provision 'ansible' do |ansible|
+      ansible.playbook = 'test_proxy.yml'
+      ansible.galaxy_role_file = 'galaxy.yml'
+    end
   end
+
 end
