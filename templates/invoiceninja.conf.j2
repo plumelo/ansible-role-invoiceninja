@@ -3,7 +3,7 @@
 server {
   listen *:80;
   listen [::]:80;
-  root {{ invoiceninja_path }}/{{ invoiceninja_user }}/public;
+  root {{ invoiceninja_path }}/public;
   index  index.php index.html index.htm;
   server_name {{ invoiceninja_server_name }};
 
@@ -12,7 +12,7 @@ server {
   }
 
   location ~ \.php$ {
-    include snippets/fastcgi-php.conf;
+    include snippets/fastcgi-php[.]conf;
     fastcgi_pass unix:/var/run/fpm.{{ invoiceninja_name }}.socket;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
