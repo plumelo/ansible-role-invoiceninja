@@ -3,3 +3,4 @@
 - src: plumelo.mysql
 - src: nbz4live.php-fpm
 - src: jdauphant.nginx
+- src: jdauphant.ssl-certs
